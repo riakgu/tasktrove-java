@@ -12,14 +12,14 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONObject;
+import tasktrove.config.Api;
 
 /**
  *
  * @author riakgu
  */
 public class ChatbotController {
-    private final String PERPLEXITY_API_KEY = "";
-    private final String PERPLEXITY_ENDPOINT = "https://api.perplexity.ai/chat/completions";
+    private Api api = new Api();
     
     public String getPerplexityResponse(String userMessage) {
         try {
@@ -29,11 +29,11 @@ public class ChatbotController {
             String requestBody = "{\"model\":\"mistral-7b-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"Be precise and concise.\"},{\"role\":\"user\",\"content\":\"" + userMessage + "\"}]}";
 
             Request request = new Request.Builder()
-                    .url(PERPLEXITY_ENDPOINT)
+                    .url(api.PERPLEXITY_ENDPOINT)
                     .post(RequestBody.create(mediaType, requestBody))
                     .addHeader("accept", "application/json")
                     .addHeader("content-type", "application/json")
-                    .addHeader("Authorization", "Bearer " + PERPLEXITY_API_KEY)
+                    .addHeader("Authorization", "Bearer " + api.PERPLEXITY_API_KEY)
                     .build();
 
             Response response = client.newCall(request).execute();
