@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import tasktrove.model.User;
-import tasktrove.util.Database;
+import tasktrove.config.Database;
 
 /**
  *

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tasktrove.util;
+package tasktrove.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

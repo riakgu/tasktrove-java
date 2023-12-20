@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import tasktrove.model.User;
-import tasktrove.util.Database;
+import tasktrove.config.Database;
 
 /**
  *
@@ -77,7 +77,7 @@ public class MainView extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(300, 720));
         jPanel1.setPreferredSize(new java.awt.Dimension(300, 720));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tasktrove/images/logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tasktrove/resources/images/logo.png"))); // NOI18N
         jLabel1.setMaximumSize(new java.awt.Dimension(3538, 1440));
 
         jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import javax.swing.table.DefaultTableModel;
 import tasktrove.controller.HomeController;
 import tasktrove.model.User;
-import tasktrove.util.Database;
+import tasktrove.config.Database;
 
 /**
  *

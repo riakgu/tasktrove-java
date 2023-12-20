@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import tasktrove.controller.TaskController;
 import tasktrove.model.User;
-import tasktrove.util.Database;
+import tasktrove.config.Database;
 
 /**
  *
