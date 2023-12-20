@@ -5,14 +5,6 @@
  */
 package tasktrove.view;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import org.json.JSONObject;
-import okhttp3.*;
 import tasktrove.controller.ChatbotController;
 
 /**

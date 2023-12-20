@@ -15,10 +15,6 @@ public class User {
     private String username;
     private String password;
 
-    public User() {
-
-    }
-
     public int getUser_id() {
         return user_id;
     }

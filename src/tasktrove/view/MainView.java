@@ -18,7 +18,7 @@ import tasktrove.config.Database;
  */
 public class MainView extends javax.swing.JFrame {
 
-    public User currentUser = new User();
+    public User currentUser;
     
     /**
      * Creates new form DashboardView
@@ -27,9 +27,9 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
         this.currentUser = user;
                 
-        jLabel2.setText(currentUser.getName());
+        jLabel2.setText(user.getName());
         jPanel3.removeAll();
-        jPanel3.add(new HomeView(currentUser));
+        jPanel3.add(new HomeView(user));
         jPanel3.repaint();
         jPanel3.revalidate();
         

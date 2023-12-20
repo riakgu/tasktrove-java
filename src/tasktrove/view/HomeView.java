@@ -26,7 +26,6 @@ public class HomeView extends javax.swing.JPanel {
     
     String[] columnNames = {"Task Name", "Description", "Started", "Deadline", "Status"};
     DefaultTableModel model = new DefaultTableModel(columnNames, 0); // 0 untuk jumlah baris awal
-    LocalDate today = LocalDate.now();
 
     /**
      * Creates new form HomeView
