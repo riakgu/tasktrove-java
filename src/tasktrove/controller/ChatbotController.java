@@ -18,7 +18,7 @@ import org.json.JSONObject;
  * @author riakgu
  */
 public class ChatbotController {
-    private final String PERPLEXITY_API_KEY = "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";
+    private final String PERPLEXITY_API_KEY = "";
     private final String PERPLEXITY_ENDPOINT = "https://api.perplexity.ai/chat/completions";
     
     public String getPerplexityResponse(String userMessage) {

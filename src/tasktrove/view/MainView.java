@@ -32,9 +32,7 @@ public class MainView extends javax.swing.JFrame {
         jPanel3.add(new HomeView(user));
         jPanel3.repaint();
         jPanel3.revalidate();
-        
-        
-
+ 
     }   
     
 
