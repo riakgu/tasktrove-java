@@ -5,17 +5,32 @@
  */
 package tasktrove.view;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import tasktrove.config.Database;
+import tasktrove.controller.SettingsController;
+import tasktrove.model.User;
+
 /**
  *
  * @author riakgu
  */
 public class SettingsView extends javax.swing.JPanel {
 
+    private SettingsController sc;
     /**
      * Creates new form SettingsView
      */
-    public SettingsView() {
+    public SettingsView(User user) {
         initComponents();
+        
+        sc = new SettingsController(user);
+        
+        jTextField3.setText(sc.getUser().getName());
+        jTextField4.setText(sc.getUser().getUsername());
     }
 
     /**
@@ -67,7 +82,12 @@ public class SettingsView extends javax.swing.JPanel {
 
         jLabel5.setText("Name");
 
-        jButton2.setText("jButton1");
+        jButton2.setText("Submit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -118,7 +138,7 @@ public class SettingsView extends javax.swing.JPanel {
 
         jLabel4.setText("New Password");
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Submit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -186,12 +206,52 @@ public class SettingsView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        int user_id = sc.getUser().getUser_id();
+        String oldPassword = jTextField1.getText();
+        String newPassword = jTextField2.getText();
+        
+        if (oldPassword.equals(sc.getUser().getPassword())) {
+            try {
+                Connection connection = Database.getConnection();
+                PreparedStatement ps = connection.prepareStatement("UPDATE users SET password = ? WHERE user_id = ?");
+                ps.setString(1, newPassword);
+                ps.setInt(2, user_id);
+                ps.executeUpdate();
+
+                JOptionPane.showMessageDialog(this, "Password updated successfully!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "The old password doesn't match!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int user_id = sc.getUser().getUser_id();
+        String name = jTextField3.getText();
+        String username = jTextField4.getText();
+        
+        try {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE users SET name = ?, username = ? WHERE user_id = ?");
+            ps.setString(1, name);
+            ps.setString(2, username);
+            ps.setInt(3, user_id);
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Profile updated successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        sc.getUser().setName(name);
+        sc.getUser().setUsername(username);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

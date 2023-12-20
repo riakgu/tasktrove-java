@@ -49,6 +49,7 @@ public class AuthController {
                 user.setUser_id(rs.getInt("user_id"));
                 user.setName(rs.getString("name"));
                 user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

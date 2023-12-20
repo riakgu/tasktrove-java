@@ -27,7 +27,6 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
         this.currentUser = user;
                 
-        jLabel2.setText(user.getName());
         jPanel3.removeAll();
         jPanel3.add(new HomeView(user));
         jPanel3.repaint();
@@ -58,7 +57,6 @@ public class MainView extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
 
@@ -247,26 +245,15 @@ public class MainView extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(0, 196, 238));
         jPanel4.setPreferredSize(new java.awt.Dimension(1180, 75));
 
-        jLabel2.setBackground(new java.awt.Color(242, 247, 255));
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(242, 247, 255));
-        jLabel2.setText("Rizky");
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(903, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+            .addGap(0, 980, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+            .addGap(0, 75, Short.MAX_VALUE)
         );
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
@@ -345,7 +332,7 @@ public class MainView extends javax.swing.JFrame {
 
     private void jPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseClicked
         jPanel3.removeAll();
-        jPanel3.add(new SettingsView());
+        jPanel3.add(new SettingsView(currentUser));
         jPanel3.repaint();
         jPanel3.revalidate();
     }//GEN-LAST:event_jPanel14MouseClicked
@@ -389,7 +376,6 @@ public class MainView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;

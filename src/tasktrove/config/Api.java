@@ -10,6 +10,6 @@ package tasktrove.config;
  * @author riakgu
  */
 public class Api {
-    public static final String PERPLEXITY_API_KEY = "";
+    public static final String PERPLEXITY_API_KEY = "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";
     public static final String PERPLEXITY_ENDPOINT = "https://api.perplexity.ai/chat/completions";
 }
