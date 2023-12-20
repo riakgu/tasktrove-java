@@ -12,8 +12,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import org.json.JSONObject;
-
 import okhttp3.*;
+import tasktrove.controller.ChatbotController;
 
 /**
  *
@@ -21,56 +21,13 @@ import okhttp3.*;
  */
 public class ChatbotView extends javax.swing.JPanel {
 
-
-    private final String PERPLEXITY_API_KEY = "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";
-    private final String PERPLEXITY_ENDPOINT = "https://api.perplexity.ai/chat/completions";
+    private ChatbotController cc = new ChatbotController();
     
     /**
      * Creates new form ChatbotView
      */
     public ChatbotView() {
         initComponents();
-    }
-    
-    private String getPerplexityResponse(String userMessage) {
-        try {
-            OkHttpClient client = new OkHttpClient();
-
-            MediaType mediaType = MediaType.parse("application/json");
-            String requestBody = "{\"model\":\"mistral-7b-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"Be precise and concise.\"},{\"role\":\"user\",\"content\":\"" + userMessage + "\"}]}";
-
-            Request request = new Request.Builder()
-                    .url(PERPLEXITY_ENDPOINT)
-                    .post(RequestBody.create(mediaType, requestBody))
-                    .addHeader("accept", "application/json")
-                    .addHeader("content-type", "application/json")
-                    .addHeader("Authorization", "Bearer " + PERPLEXITY_API_KEY)
-                    .build();
-
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful() && response.body() != null) {
-                // Parse the JSON response
-                String jsonResponse = response.body().string();
-                JSONObject jsonObject = new JSONObject(jsonResponse);
-
-                // Extract the assistant's response
-                String assistantResponse = jsonObject.getJSONArray("choices")
-                        .getJSONObject(0)
-                        .getJSONObject("message")
-                        .getString("content");
-
-                return assistantResponse;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "Sorry, something went wrong.";
-    }
-
-    private void appendMessage(String message) {
-        chatArea.append(message + "\n");
-        chatArea.setCaretPosition(chatArea.getDocument().getLength());
     }
 
     /**
@@ -140,16 +97,16 @@ public class ChatbotView extends javax.swing.JPanel {
 
     private void inputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputFieldActionPerformed
         String userMessage = inputField.getText().trim();
-                if (!userMessage.isEmpty()) {
-                    appendMessage("You: " + userMessage);
+        if (!userMessage.isEmpty()) {
+            cc.appendMessage("You: " + userMessage, chatArea);
 
-                    // Send user message to Perplexity API with mistral-7b-instruct model
-                    String botResponse = getPerplexityResponse(userMessage);
-                    appendMessage("Perplexity: " + botResponse);
+            // Send user message to Perplexity API with mistral-7b-instruct model
+            String botResponse = cc.getPerplexityResponse(userMessage);
+            cc.appendMessage("Perplexity: " + botResponse, chatArea);
 
-                    // Clear the input field
-                    inputField.setText("");
-                }
+            // Clear the input field
+            inputField.setText("");
+        }
     }//GEN-LAST:event_inputFieldActionPerformed
 
 

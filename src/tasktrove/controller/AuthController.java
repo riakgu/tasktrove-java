@@ -5,10 +5,12 @@
  */
 package tasktrove.controller;
 
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import tasktrove.model.User;
 import tasktrove.util.Database;
 
@@ -53,5 +55,34 @@ public class AuthController {
             // Penanganan eksepsi
         }
         return user;
+    }
+    
+    public boolean saveUser(String name, String username, String password) {
+        try {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO users (name, username, password) VALUES (?, ?, ?)");
+            ps.setString(1, name);
+            ps.setString(2, username);
+            ps.setString(3, password); // Consider using hashed passwords
+            ps.executeUpdate();
+            
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean isUserExists(String username) {
+        try {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
