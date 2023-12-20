@@ -1,4 +1,2 @@
 # Ignore the build directory
 build/
-e/config/
-src/tasktrove/config/Api.java
