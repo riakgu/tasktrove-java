@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import model.User;
+import tasktrove.model.User;
 import tasktrove.util.Database;
 
 /**
@@ -88,7 +88,6 @@ public class LoginView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
 
         jPanel1.setMaximumSize(new java.awt.Dimension(1280, 720));

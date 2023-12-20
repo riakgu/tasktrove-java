@@ -79,7 +79,6 @@ public class RegisterView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jPanel1.setMaximumSize(new java.awt.Dimension(1280, 720));
         jPanel1.setMinimumSize(new java.awt.Dimension(1280, 720));

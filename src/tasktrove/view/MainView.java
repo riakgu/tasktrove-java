@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import model.User;
+import tasktrove.model.User;
 import tasktrove.util.Database;
 
 /**

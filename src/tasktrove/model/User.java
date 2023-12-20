@@ -10,7 +10,7 @@ package tasktrove.model;
  * @author riakgu
  */
 public class User {
-    private String user_id;
+    private int user_id;
     private String name;
     private String username;
     private String password;
@@ -19,7 +19,7 @@ public class User {
 
     }
 
-    public String getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 
@@ -35,7 +35,7 @@ public class User {
         return password;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
 
