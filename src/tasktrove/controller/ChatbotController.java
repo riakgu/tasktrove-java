@@ -56,9 +56,4 @@ public class ChatbotController {
 
         return "Sorry, something went wrong.";
     }
-
-    public void appendMessage(String message, JTextArea chatArea) {
-        chatArea.append(message + "\n");
-        chatArea.setCaretPosition(chatArea.getDocument().getLength());
-    }
 }

@@ -98,11 +98,13 @@ public class ChatbotView extends javax.swing.JPanel {
     private void inputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputFieldActionPerformed
         String userMessage = inputField.getText().trim();
         if (!userMessage.isEmpty()) {
-            cc.appendMessage("You: " + userMessage, chatArea);
+            chatArea.append("You: " + userMessage + "\n");
+            chatArea.setCaretPosition(chatArea.getDocument().getLength());
 
             // Send user message to Perplexity API with mistral-7b-instruct model
             String botResponse = cc.getPerplexityResponse(userMessage);
-            cc.appendMessage("Perplexity: " + botResponse, chatArea);
+            chatArea.append("Perplexity: " + botResponse);
+            chatArea.setCaretPosition(chatArea.getDocument().getLength());
 
             // Clear the input field
             inputField.setText("");
