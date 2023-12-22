@@ -211,16 +211,9 @@ public class SettingsView extends javax.swing.JPanel {
         String newPassword = jTextField2.getText();
         
         if (oldPassword.equals(sc.getUser().getPassword())) {
-            try {
-                Connection connection = Database.getConnection();
-                PreparedStatement ps = connection.prepareStatement("UPDATE users SET password = ? WHERE user_id = ?");
-                ps.setString(1, newPassword);
-                ps.setInt(2, user_id);
-                ps.executeUpdate();
-
+            
+            if (sc.settingsPassword(user_id, newPassword)) {
                 JOptionPane.showMessageDialog(this, "Password updated successfully!");
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
         } else {
             JOptionPane.showMessageDialog(this, "The old password doesn't match!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -236,17 +229,8 @@ public class SettingsView extends javax.swing.JPanel {
         String name = jTextField3.getText();
         String username = jTextField4.getText();
         
-        try {
-            Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("UPDATE users SET name = ?, username = ? WHERE user_id = ?");
-            ps.setString(1, name);
-            ps.setString(2, username);
-            ps.setInt(3, user_id);
-            ps.executeUpdate();
-
+        if (sc.settingsProfile(user_id, name, username)) {
             JOptionPane.showMessageDialog(this, "Profile updated successfully!");
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         
         sc.getUser().setName(name);
