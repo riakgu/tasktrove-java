@@ -10,9 +10,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import tasktrove.model.User;
 import tasktrove.config.Database;
+import tasktrove.model.Task;
 
 /**
  *
@@ -27,6 +29,67 @@ public class TaskController {
 
     public User getUser() {
         return user;
+    }
+    
+    public boolean saveTask(Task task) {
+        try {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO tasks (user_id, task_name, description, started, deadline, status) VALUES (?, ?, ?, ?, ?, ?)");
+            ps.setInt(1, task.getUser_id());
+            ps.setString(2, task.getTask_name());
+            ps.setString(3, task.getDescription());
+            ps.setDate(4, task.getStarted());
+            ps.setDate(5, task.getDeadline());
+            ps.setString(6, task.getStatus());
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean updateTask(Task task) {
+        try {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE tasks SET task_name = ?, description = ?, started = ?, deadline = ?, status = ? WHERE task_id = ?");
+            ps.setString(1, task.getTask_name());
+            ps.setString(2, task.getDescription());
+            ps.setDate(3, task.getStarted());
+            ps.setDate(4, task.getDeadline());
+            ps.setString(5, task.getStatus());
+            ps.setInt(6, task.getTask_id());
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        return false;
+    }
+    
+    public boolean deleteTask(int task_id) {
+        try {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM tasks WHERE task_id = ?");
+            ps.setInt(1, task_id);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     
     public ResultSet getTasks() {

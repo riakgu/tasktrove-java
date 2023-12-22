@@ -390,21 +390,11 @@ public class TasksView extends javax.swing.JPanel {
         Date deadline = java.sql.Date.valueOf(jTextField3.getText());
         String description = jTextArea1.getText();
         String status = (String) jComboBox1.getSelectedItem();
-            
-        try {
-            Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO tasks (user_id, task_name, description, started, deadline, status) VALUES (?, ?, ?, ?, ?, ?)");
-            ps.setInt(1, user_id);
-            ps.setString(2, task_name);
-            ps.setString(3, description);
-            ps.setDate(4, started);
-            ps.setDate(5, deadline);
-            ps.setString(6, status);
-            ps.executeUpdate();
-
+        
+        Task task = new Task(0,user_id, task_name, description, started, deadline, status);
+        
+        if (tc.saveTask(task)) {
             JOptionPane.showMessageDialog(this, "Task added successfully!");
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -413,47 +403,31 @@ public class TasksView extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
-        
-        int task_id = (int) model.getValueAt(jTable4.getSelectedRow(), 0);
-        
-        System.out.println(task_id);
-        
+       
+        int task_id = (int) model.getValueAt(jTable4.getSelectedRow(), 0);        
         String task_name = jTextField4.getText();
         String description = jTextArea2.getText();
         Date started = java.sql.Date.valueOf(jTextField5.getText());
         Date deadline = java.sql.Date.valueOf(jTextField6.getText());
         String status = (String) jComboBox2.getSelectedItem();
-
-        try {
-            Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("UPDATE tasks SET task_name = ?, description = ?, started = ?, deadline = ?, status = ? WHERE task_id = ?");
-            ps.setString(1, task_name);
-            ps.setString(2, description);
-            ps.setDate(3, started);
-            ps.setDate(4, deadline);
-            ps.setString(5, status);
-            ps.setInt(6, task_id);
-            ps.executeUpdate();
-
+        
+        Task task = new Task(task_id,0, task_name, description, started, deadline, status);
+        
+        if (tc.updateTask(task)) {
             JOptionPane.showMessageDialog(this, "Task updated successfully!");
-            
+                        
             jPanel1.removeAll();
             jPanel1.add(taskList);
             jPanel1.repaint();
             jPanel1.revalidate();
             
             int rowCount = model.getRowCount();
-            //Remove rows one by one from the end of the table
             for (int i = rowCount - 1; i >= 0; i--) {
                 model.removeRow(i);
             }
             
             tc.loadTasksIntoTable(model);
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
@@ -493,23 +467,15 @@ public class TasksView extends javax.swing.JPanel {
         int task_id = (int) model.getValueAt(jTable4.getSelectedRow(), 0);
         
         if (confirm == JOptionPane.YES_OPTION) {
-            try {
-                Connection connection = Database.getConnection();
-                PreparedStatement ps = connection.prepareStatement("DELETE FROM tasks WHERE task_id = ?");
-                ps.setInt(1, task_id);
-                ps.executeUpdate();
-
+            
+            if (tc.deleteTask(task_id)) {
                 JOptionPane.showMessageDialog(this, "Task deleted successfully!");
-                
                 int rowCount = model.getRowCount();
-                //Remove rows one by one from the end of the table
                 for (int i = rowCount - 1; i >= 0; i--) {
                     model.removeRow(i);
                 }
 
                 tc.loadTasksIntoTable(model);
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed

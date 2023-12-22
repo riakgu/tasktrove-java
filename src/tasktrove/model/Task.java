@@ -21,7 +21,8 @@ public class Task {
     private Date deadline;
     private String status;
 
-    public Task(int user_id, String task_name, String description, Date started, Date deadline, String status) {
+    public Task(int task_id, int user_id, String task_name, String description, Date started, Date deadline, String status) {
+        this.task_id = task_id;
         this.user_id = user_id;
         this.task_name = task_name;
         this.description = description;
