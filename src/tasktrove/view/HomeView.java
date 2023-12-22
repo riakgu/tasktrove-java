@@ -24,7 +24,7 @@ public class HomeView extends javax.swing.JPanel {
 
     private HomeController hc;
     
-    String[] columnNames = {"Task Name", "Description", "Started", "Deadline", "Status"};
+    String[] columnNames = {"Task Id","Task Name", "Description", "Started", "Deadline", "Status"};
     DefaultTableModel model = new DefaultTableModel(columnNames, 0); // 0 untuk jumlah baris awal
 
     /**

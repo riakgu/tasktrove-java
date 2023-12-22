@@ -83,13 +83,14 @@ public class HomeController {
         try {
             ResultSet rs = getTasks();
             while (rs != null && rs.next()) {
+                int taskId = rs.getInt("task_id");
                 String taskName = rs.getString("task_name");
                 String description = rs.getString("description");
                 Date started = rs.getDate("started");
                 Date deadline = rs.getDate("deadline");
                 String status = rs.getString("status");
 
-                model.addRow(new Object[]{taskName, description, started, deadline, status});
+                model.addRow(new Object[]{taskId, taskName, description, started, deadline, status});
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -10,11 +10,13 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import tasktrove.controller.TaskController;
 import tasktrove.model.User;
 import tasktrove.config.Database;
+import tasktrove.model.Task;
 
 /**
  *
@@ -23,8 +25,9 @@ import tasktrove.config.Database;
 public class TasksView extends javax.swing.JPanel {
 
     private TaskController tc;
+    private Task task;
     
-    String[] columnNames = {"Task Name", "Description", "Started", "Deadline", "Status"};
+    String[] columnNames = {"Task Id", "Task Name", "Description", "Started", "Deadline", "Status"};
     DefaultTableModel model = new DefaultTableModel(columnNames, 0); // 0 untuk jumlah baris awal
 
     /**
@@ -34,6 +37,9 @@ public class TasksView extends javax.swing.JPanel {
         initComponents();
         
         tc = new TaskController(user);
+        
+        jButton3.setVisible(false);
+        jButton2.setVisible(false);
         
         tc.loadTasksIntoTable(model);
     }
@@ -93,6 +99,11 @@ public class TasksView extends javax.swing.JPanel {
         taskList.setMinimumSize(new java.awt.Dimension(920, 585));
 
         jTable4.setModel(model);
+        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable4MouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(jTable4);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -113,6 +124,11 @@ public class TasksView extends javax.swing.JPanel {
         });
 
         jButton3.setText("Delete Task");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout taskListLayout = new javax.swing.GroupLayout(taskList);
         taskList.setLayout(taskListLayout);
@@ -397,7 +413,47 @@ public class TasksView extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+        
+        int task_id = (int) model.getValueAt(jTable4.getSelectedRow(), 0);
+        
+        System.out.println(task_id);
+        
+        String task_name = jTextField4.getText();
+        String description = jTextArea2.getText();
+        Date started = java.sql.Date.valueOf(jTextField5.getText());
+        Date deadline = java.sql.Date.valueOf(jTextField6.getText());
+        String status = (String) jComboBox2.getSelectedItem();
+
+        try {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE tasks SET task_name = ?, description = ?, started = ?, deadline = ?, status = ? WHERE task_id = ?");
+            ps.setString(1, task_name);
+            ps.setString(2, description);
+            ps.setDate(3, started);
+            ps.setDate(4, deadline);
+            ps.setString(5, status);
+            ps.setInt(6, task_id);
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Task updated successfully!");
+            
+            jPanel1.removeAll();
+            jPanel1.add(taskList);
+            jPanel1.repaint();
+            jPanel1.revalidate();
+            
+            int rowCount = model.getRowCount();
+            //Remove rows one by one from the end of the table
+            for (int i = rowCount - 1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+            
+            tc.loadTasksIntoTable(model);
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
@@ -408,8 +464,55 @@ public class TasksView extends javax.swing.JPanel {
         jPanel1.removeAll();
         jPanel1.add(editTask);
         jPanel1.repaint();
-        jPanel1.revalidate();
+        jPanel1.revalidate();  
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
+        // TODO add your handling code here:
+        jButton3.setVisible(true);
+        jButton2.setVisible(true);
+        
+        String task_name = model.getValueAt(jTable4.getSelectedRow(), 1).toString();
+        String description = model.getValueAt(jTable4.getSelectedRow(), 2).toString();
+        Date started = java.sql.Date.valueOf(model.getValueAt(jTable4.getSelectedRow(), 3).toString());
+        Date deadline = java.sql.Date.valueOf(model.getValueAt(jTable4.getSelectedRow(), 4).toString());
+        String status = model.getValueAt(jTable4.getSelectedRow(), 5).toString();
+        
+        jTextField4.setText(task_name);
+        jTextField5.setText(started.toString());
+        jTextField6.setText(deadline.toString());
+        jTextArea2.setText(description);
+        jComboBox2.setSelectedItem(status); 
+    }//GEN-LAST:event_jTable4MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+        
+        int selectedRow = jTable4.getSelectedRow();
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION);
+        int task_id = (int) model.getValueAt(jTable4.getSelectedRow(), 0);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                Connection connection = Database.getConnection();
+                PreparedStatement ps = connection.prepareStatement("DELETE FROM tasks WHERE task_id = ?");
+                ps.setInt(1, task_id);
+                ps.executeUpdate();
+
+                JOptionPane.showMessageDialog(this, "Task deleted successfully!");
+                
+                int rowCount = model.getRowCount();
+                //Remove rows one by one from the end of the table
+                for (int i = rowCount - 1; i >= 0; i--) {
+                    model.removeRow(i);
+                }
+
+                tc.loadTasksIntoTable(model);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
