@@ -13,77 +13,38 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import tasktrove.model.User;
 import tasktrove.config.Database;
+import tasktrove.dao.UserDaoImpl;
 
 /**
  *
  * @author riakgu
  */
 public class AuthController {
-    public boolean authenticateUser(String username, String password) {
-        try {
-            Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT password FROM users WHERE username = ?");
-            ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
-            
-            if (rs.next()) {
-                String retrievedPassword = rs.getString("password"); // In real applications, this should be a hashed password
-                return retrievedPassword.equals(password); // Change this line to use password hashing
-            }
-            return false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    
+    private UserDaoImpl ud = new UserDaoImpl();
+    
+    public boolean login(String username, String password) {
+        User user = ud.getByUsername(username);
+        
+        return user.getPassword().equals(password);
     }
     
-    public User getUserDetails(String username) {
+    public boolean register(String name, String username, String password) {
         User user = new User();
-        try {
-            Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
-            ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
+        user.setName(name);
+        user.setPassword(password);
+        user.setUsername(username);
+        
+        return ud.save(user);
+    }
 
-            if (rs.next()) {
-                user.setUser_id(rs.getInt("user_id"));
-                user.setName(rs.getString("name"));
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Penanganan eksepsi
-        }
-        return user;
+    public User getUserDetails(String username) {
+        return ud.getByUsername(username);
     }
     
-    public boolean saveUser(String name, String username, String password) {
-        try {
-            Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO users (name, username, password) VALUES (?, ?, ?)");
-            ps.setString(1, name);
-            ps.setString(2, username);
-            ps.setString(3, password); // Consider using hashed passwords
-            ps.executeUpdate();
-            
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public boolean isUserExists(String username) {
-        try {
-            Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
-            ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        User user = ud.getByUsername(username);
+        
+        return user != null;
     }
 }

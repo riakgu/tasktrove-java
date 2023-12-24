@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import javax.swing.table.DefaultTableModel;
 import tasktrove.model.User;
 import tasktrove.config.Database;
+import tasktrove.dao.TaskDaoImpl;
 
 /**
  *
@@ -21,79 +22,35 @@ import tasktrove.config.Database;
  */
 public class HomeController {
     
-    private User user;
+    private TaskDaoImpl td = new TaskDaoImpl();
     
-    public HomeController(User currentUser) {
-        this.user = currentUser;
-    }
-    
-    public int getUndoneTasks() {
-        int count = 0;
-        try {
-            Connection connection = Database.getConnection(); // Ganti dengan metode koneksi database Anda
-            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status != 'DONE'");
-            ps.setInt(1, user.getUser_id());
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                count = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return count;
-    }
-    
-    public int getTotalTasks() {
-        int count = 0;
-        try {
-            Connection connection = Database.getConnection(); // Ganti dengan metode koneksi database Anda
-            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM tasks WHERE user_id = ?");
-            ps.setInt(1, user.getUser_id());
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                count = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return count;
-    }
-    
-    public ResultSet getTasks() {
+    public void deadlineToday(DefaultTableModel model, int user_id) {
         LocalDate today = LocalDate.now();
         Date sqlToday = Date.valueOf(today);
-        
-        ResultSet rs = null;
         try {
-            Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM tasks WHERE user_id = ? AND deadline = ?");
-            ps.setInt(1, user.getUser_id());
-            ps.setDate(2, sqlToday);
-
-            rs = ps.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return rs;
-    }
-    
-    public void loadTasksIntoTable(DefaultTableModel model) {
-        try {
-            ResultSet rs = getTasks();
+            ResultSet rs = td.getAll(user_id);
             while (rs != null && rs.next()) {
-                int taskId = rs.getInt("task_id");
-                String taskName = rs.getString("task_name");
-                String description = rs.getString("description");
-                Date started = rs.getDate("started");
-                Date deadline = rs.getDate("deadline");
-                String status = rs.getString("status");
+                if (rs.getDate("deadline").equals(sqlToday)) {
+                    int taskId = rs.getInt("task_id");
+                    String taskName = rs.getString("task_name");
+                    String description = rs.getString("description");
+                    Date started = rs.getDate("started");
+                    Date deadline = rs.getDate("deadline");
+                    String status = rs.getString("status");
 
-                model.addRow(new Object[]{taskId, taskName, description, started, deadline, status});
+                    model.addRow(new Object[]{taskId, taskName, description, started, deadline, status});
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public int getUndoneTasks(int user_id) {
+        return td.getUndone(user_id);
+    }
+    
+    public int getTotalTasks(int user_id) {
+        return td.getTotal(user_id);
     }
 }

@@ -27,8 +27,7 @@ public class Database {
     public Database() {
         
     }
-    
-    
+
     public static Connection getConnection() {
         try {
             connection = DriverManager.getConnection(DB_URL,DB_USER,DB_PASS);
