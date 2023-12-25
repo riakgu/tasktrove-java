@@ -1,23 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tasktrove.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import tasktrove.config.Database;
 import tasktrove.model.User;
 
 /**
- *
- * @author riakgu
+ * UserDaoImpl menyediakan implementasi dari metode-metode untuk berinteraksi 
+ * dengan tabel pengguna dalam database.
  */
 public class UserDaoImpl implements UserDao {
 
+    /**
+     * Mendapatkan pengguna dari database berdasarkan nama pengguna.
+     * 
+     * @param username Nama pengguna yang dicari.
+     * @return Objek User yang ditemukan atau null jika tidak ada.
+     */
     @Override
     public User getByUsername(String username) {
         try {
@@ -39,6 +37,12 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
     
+    /**
+     * Mendapatkan pengguna dari database berdasarkan ID pengguna.
+     * 
+     * @param user_id ID dari pengguna yang dicari.
+     * @return Objek User yang ditemukan atau null jika tidak ada.
+     */
     @Override
     public User getById(int user_id) {
         try {
@@ -60,6 +64,12 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
     
+    /**
+     * Menyimpan pengguna baru ke dalam database.
+     * 
+     * @param user Objek User yang akan disimpan.
+     * @return true jika berhasil disimpan, false jika gagal.
+     */
     @Override
     public boolean save(User user) {
         try {
@@ -68,16 +78,19 @@ public class UserDaoImpl implements UserDao {
             ps.setString(1, user.getName());
             ps.setString(2, user.getUsername());
             ps.setString(3, user.getPassword());
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
-                return true;
-            }
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    /**
+     * Memperbarui informasi pengguna yang ada di dalam database.
+     * 
+     * @param user Objek User yang telah diperbarui.
+     * @return true jika berhasil diperbarui, false jika gagal.
+     */
     @Override
     public boolean update(User user) {
         try {
@@ -87,19 +100,21 @@ public class UserDaoImpl implements UserDao {
             ps.setString(2, user.getUsername());
             ps.setString(3, user.getPassword());
             ps.setInt(4, user.getUser_id());
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
-                return true;
-            }
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    /**
+     * Menghapus pengguna dari database berdasarkan ID pengguna.
+     * 
+     * @param user_id ID dari pengguna yang akan dihapus.
+     */
     @Override
     public void delete(int user_id) {
-        
+
     }
     
 }

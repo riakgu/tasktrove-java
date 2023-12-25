@@ -43,6 +43,7 @@ public class ChatbotView extends javax.swing.JPanel {
         mainPanel.setMinimumSize(new java.awt.Dimension(920, 585));
         mainPanel.setPreferredSize(new java.awt.Dimension(920, 585));
 
+        inputField.setBackground(new java.awt.Color(242, 247, 255));
         inputField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputFieldActionPerformed(evt);

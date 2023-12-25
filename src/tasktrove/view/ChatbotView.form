@@ -74,6 +74,11 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="inputField">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="f7" red="f2" type="rgb"/>
+            </Property>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputFieldActionPerformed"/>
           </Events>

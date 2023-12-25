@@ -1,28 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tasktrove.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
-import tasktrove.config.Database;
-import tasktrove.dao.TaskDaoImpl;
 import tasktrove.dao.UserDaoImpl;
 import tasktrove.model.User;
 
 /**
- *
- * @author riakgu
+ * SettingsController bertanggung jawab untuk mengelola pengaturan pengguna, 
+ * termasuk pembaruan kata sandi dan profil pengguna.
  */
 public class SettingsController {
     
     private UserDaoImpl ud = new UserDaoImpl();
     
+    /**
+     * Memperbarui kata sandi pengguna di basis data.
+     * 
+     * @param user_id ID pengguna yang akan diperbarui kata sandinya.
+     * @param newPassword Kata sandi baru untuk pengguna.
+     * @return true jika pembaruan berhasil, false jika gagal.
+     */
     public boolean settingsPassword(int user_id, String newPassword ) {
         User user = ud.getById(user_id);
         user.setPassword(newPassword);
@@ -30,6 +25,14 @@ public class SettingsController {
         return ud.update(user);
     }
     
+    /**
+     * Memperbarui profil pengguna, termasuk nama dan nama pengguna.
+     * 
+     * @param user_id ID pengguna yang akan diperbarui profilnya.
+     * @param name Nama baru untuk pengguna.
+     * @param username Nama pengguna baru.
+     * @return true jika pembaruan berhasil, false jika gagal.
+     */
     public boolean settingsProfile(int user_id, String name, String username) {
         User user = ud.getById(user_id);
         user.setName(name);
