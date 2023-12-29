@@ -13,6 +13,7 @@ import java.util.logging.Logger;
  * @author riakgu
  */
 public class Task {
+    private User user;
     private int task_id;
     private int user_id;
     private String task_name;
@@ -20,16 +21,6 @@ public class Task {
     private Date started;
     private Date deadline;
     private String status;
-
-    public Task(int task_id, int user_id, String task_name, String description, Date started, Date deadline, String status) {
-        this.task_id = task_id;
-        this.user_id = user_id;
-        this.task_name = task_name;
-        this.description = description;
-        this.started = started;
-        this.deadline = deadline;
-        this.status = status;
-    }
 
     public int getTask_id() {
         return task_id;

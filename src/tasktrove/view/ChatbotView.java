@@ -92,19 +92,29 @@ public class ChatbotView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputFieldActionPerformed
-        String userMessage = inputField.getText().trim();
-        if (!userMessage.isEmpty()) {
-            chatArea.append("You: " + userMessage + "\n");
-            chatArea.setCaretPosition(chatArea.getDocument().getLength());
+    // Mendapatkan teks dari input field dan menghapus spasi di awal dan akhir
+    String userMessage = inputField.getText().trim();
 
-            // Send user message to Perplexity API with mistral-7b-instruct model
-            String botResponse = cc.getPerplexityResponse(userMessage);
-            chatArea.append("Perplexity: " + botResponse + "\n");
-            chatArea.setCaretPosition(chatArea.getDocument().getLength());
+    // Memeriksa apakah pesan pengguna tidak kosong
+    if (!userMessage.isEmpty()) {
+        // Menambahkan pesan pengguna ke area chat dengan format "You: [pesan]"
+        chatArea.append("You: " + userMessage + "\n");
+        
+        // Mengatur posisi caret ke akhir area chat
+        chatArea.setCaretPosition(chatArea.getDocument().getLength());
 
-            // Clear the input field
-            inputField.setText("");
-        }
+        // Mendapatkan respons dari model perplexity berdasarkan pesan pengguna
+        String botResponse = cc.getPerplexityResponse(userMessage);
+
+        // Menambahkan perplexity response ke area chat dengan format "Perplexity: [response]"
+        chatArea.append("Perplexity: " + botResponse + "\n");
+        
+        // Mengatur posisi caret ke akhir area chat
+        chatArea.setCaretPosition(chatArea.getDocument().getLength());
+
+        // Mengosongkan input field setelah pesan terkirim
+        inputField.setText("");
+    }
     }//GEN-LAST:event_inputFieldActionPerformed
 
 

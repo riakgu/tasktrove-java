@@ -38,14 +38,13 @@ public class TaskDaoImpl implements TaskDao {
     @Override
     public Task get(int task_id) {
         try {
-            Task task = null;
+            Task task = new Task();
             Connection connection = Database.getConnection();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM tasks WHERE task_id = ?");
             ps.setInt(1, task_id);
             ResultSet rs = ps.executeQuery();
             if (rs != null && rs.next()) {
                 // Mengisi objek Task dengan data dari ResultSet.
-                //task = new Task();
                 task.setTask_id(rs.getInt("task_id"));
                 task.setUser_id(rs.getInt("user_id"));
                 task.setTask_name(rs.getString("task_name"));

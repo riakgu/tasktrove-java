@@ -196,24 +196,33 @@ public class LoginView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        String username = inputUsernameField.getText(); // assuming jTextField1 is the username field
-        String password = new String(inputPassField.getPassword()); // assuming jPasswordField1 is the password field
-        
-        // Validate form
+        // Mendapatkan nilai dari field username dan password
+        String username = inputUsernameField.getText();
+        String password = new String(inputPassField.getPassword()); 
+
+        // Memeriksa apakah field username atau password kosong
         if (username.isEmpty() || password.isEmpty()) {
+            // Menampilkan pesan kesalahan jika field kosong
             JOptionPane.showMessageDialog(this, "Please enter username and password", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Check credentials
+        // Memeriksa keberhasilan login dengan menggunakan objek AuthController (ac)
         if (ac.login(username, password)) {
+            // Menampilkan pesan sukses jika login berhasil
             JOptionPane.showMessageDialog(this, "Login successful!");
             
+            // Mendapatkan detail pengguna
             User user = ac.getUserDetails(username);
-            MainView dv = new MainView(user);
-            dv.setVisible(true);
+
+            // Membuat dan menampilkan MainView dengan menggunakan detail pengguna
+            MainView mainView = new MainView(user);
+            mainView.setVisible(true);
+
+            // Menutup jendela login
             this.dispose();
         } else {
+            // Menampilkan pesan kesalahan jika login tidak berhasil
             JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_loginButtonActionPerformed

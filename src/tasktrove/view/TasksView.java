@@ -25,7 +25,7 @@ import tasktrove.model.Task;
  */
 public class TasksView extends javax.swing.JPanel {
 
-    private TaskController tc;
+    private TaskController tc = new TaskController();
     private User user;
     
     String[] columnNames = {"Task Id", "Task Name", "Description", "Started", "Deadline", "Status"};
@@ -38,13 +38,11 @@ public class TasksView extends javax.swing.JPanel {
         initComponents();
         this.user = user;
         
-        tc = new TaskController();
+        tc.taskList(model, user.getUser_id());
         
         deleteTaskButton.setVisible(false);
         editTaskButton.setVisible(false);
-        
-        tc.taskList(model, user.getUser_id());
-        
+
         taskListTable.setBackground(new Color(242, 247, 255));
         jScrollPane4.getViewport().setBackground(new Color(242, 247, 255));
         taskListTable.getTableHeader().setBackground(new Color(242, 247, 255));
@@ -413,46 +411,57 @@ public class TasksView extends javax.swing.JPanel {
     }//GEN-LAST:event_createTaskButtonActionPerformed
 
     private void submitCreateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitCreateButtonActionPerformed
-        int user_id = user.getUser_id();
-        String task_name = inputTNameField.getText();
-        String description = inputDescField.getText();
-        String status = (String) inputStatus.getSelectedItem();
-        
+        // Membaca nilai dari input field dan membuat objek Task
+        Task task = new Task();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date started = null;
-        Date deadline = null;
-        
-        if (inputStarted.getDate() != null && inputDeadline.getDate() != null) {
-            String st = sdf.format(inputStarted.getDate().getTime());
-            String dl = sdf.format(inputDeadline.getDate().getTime());
-            started = java.sql.Date.valueOf(st);
-            deadline = java.sql.Date.valueOf(dl);
-        } else {
+
+        // Mengatur nilai properti pada objek Task
+        task.setUser_id(user.getUser_id());
+        task.setTask_name(inputTNameField.getText());
+        task.setDescription(inputDescField.getText());
+        task.setStatus((String) inputStatus.getSelectedItem());
+
+        try {
+            // Mengatur tanggal mulai dan tanggal deadline pada objek Task
+            task.setStarted(java.sql.Date.valueOf(sdf.format(inputStarted.getDate().getTime())));
+            task.setDeadline(java.sql.Date.valueOf(sdf.format(inputDeadline.getDate().getTime())));
+        } catch (NullPointerException e) {
+            // Menampilkan pesan kesalahan jika tanggal mulai atau tanggal deadline kosong
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validate form
-        if (task_name.isEmpty() || description.isEmpty() || status.isEmpty()) {
+        // Memeriksa apakah ada field yang kosong pada objek Task
+        if (task.getTask_name().isEmpty() || task.getDescription().isEmpty() || task.getStatus().isEmpty() || task.getStarted().toString().isEmpty() || task.getDeadline().toString().isEmpty()) {
+            // Menampilkan pesan kesalahan jika ada field kosong
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        Task task = new Task(0,user_id, task_name, description, started, deadline, status);
-        
+        // Memeriksa apakah tanggal Started kurang dari atau sama dengan tanggal Deadline
+        if (task.getStarted().compareTo(task.getDeadline()) > 0) {
+            JOptionPane.showMessageDialog(this, "Start date must be on or before the deadline", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Menambahkan task baru dengan menggunakan TaskController (tc)
         if (tc.createTask(task)) {
+            // Menampilkan pesan sukses jika penambahan task berhasil
             JOptionPane.showMessageDialog(this, "Task added successfully!");
-            
+
+            // Mengganti tampilan panel utama
             mainPanel.removeAll();
             mainPanel.add(taskList);
             mainPanel.repaint();
             mainPanel.revalidate();
-            
+
+            // Menghapus semua baris dalam model tabel
             int rowCount = model.getRowCount();
             for (int i = rowCount - 1; i >= 0; i--) {
                 model.removeRow(i);
             }
-            
+
+            // Memperbarui daftar tugas dalam tabel
             tc.taskList(model, user.getUser_id());
         }
     }//GEN-LAST:event_submitCreateButtonActionPerformed
@@ -462,48 +471,58 @@ public class TasksView extends javax.swing.JPanel {
     }//GEN-LAST:event_inputStatusActionPerformed
 
     private void submitEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitEditButtonActionPerformed
-       
-        int task_id = (int) model.getValueAt(taskListTable.getSelectedRow(), 0);        
-        String task_name = inputTNameField2.getText();
-        String description = inputDescField2.getText();
-        String status = (String) inputStatus2.getSelectedItem();
-
-        
+        // Membaca nilai dari input field dan membuat objek Task untuk penyuntingan
+        Task task = new Task();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date started = null;
-        Date deadline = null;
-        
-        if (inputStarted2.getDate() != null && inputDeadline2.getDate() != null) {
-            String st = sdf.format(inputStarted2.getDate().getTime());
-            String dl = sdf.format(inputDeadline2.getDate().getTime());
-            started = java.sql.Date.valueOf(st);
-            deadline = java.sql.Date.valueOf(dl);
-        } else {
+
+        // Mengatur nilai properti pada objek Task
+        task.setUser_id(user.getUser_id());
+        task.setTask_id((int) model.getValueAt(taskListTable.getSelectedRow(), 0));
+        task.setTask_name(inputTNameField2.getText());
+        task.setDescription(inputDescField2.getText());
+        task.setStatus((String) inputStatus2.getSelectedItem());
+
+        try {
+            // Mengatur tanggal mulai dan tanggal deadline pada objek Task
+            task.setStarted(java.sql.Date.valueOf(sdf.format(inputStarted2.getDate().getTime())));
+            task.setDeadline(java.sql.Date.valueOf(sdf.format(inputDeadline2.getDate().getTime())));
+        } catch (NullPointerException e) {
+            // Menampilkan pesan kesalahan jika tanggal mulai atau tanggal deadline kosong
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validate form
-        if (task_name.isEmpty() || description.isEmpty() || status.isEmpty()) {
+        // Memeriksa apakah ada field yang kosong pada objek Task
+        if (task.getTask_name().isEmpty() || task.getDescription().isEmpty() || task.getStatus().isEmpty() || task.getStarted().toString().isEmpty() || task.getDeadline().toString().isEmpty()) {
+            // Menampilkan pesan kesalahan jika ada field kosong
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        Task task = new Task(task_id,0, task_name, description, started, deadline, status);
-        
+
+        // Memeriksa apakah tanggal Started kurang dari atau sama dengan tanggal Deadline
+        if (task.getStarted().compareTo(task.getDeadline()) > 0) {
+            JOptionPane.showMessageDialog(this, "Start date must be on or before the deadline", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Menyunting tugas dengan menggunakan TaskController (tc)
         if (tc.editTask(task)) {
+            // Menampilkan pesan sukses jika penyuntingan tugas berhasil
             JOptionPane.showMessageDialog(this, "Task updated successfully!");
-                        
+
+            // Mengganti tampilan panel utama
             mainPanel.removeAll();
             mainPanel.add(taskList);
             mainPanel.repaint();
             mainPanel.revalidate();
-            
+
+            // Menghapus semua baris dalam model tabel
             int rowCount = model.getRowCount();
             for (int i = rowCount - 1; i >= 0; i--) {
                 model.removeRow(i);
             }
-            
+
+            // Memperbarui daftar tugas dalam tabel
             tc.taskList(model, user.getUser_id());
         }
     }//GEN-LAST:event_submitEditButtonActionPerformed
@@ -520,38 +539,39 @@ public class TasksView extends javax.swing.JPanel {
     }//GEN-LAST:event_editTaskButtonActionPerformed
 
     private void taskListTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_taskListTableMouseClicked
+        Task task = new Task();
+        task = tc.getTaskDetails((int) model.getValueAt(taskListTable.getSelectedRow(), 0));
+        
         deleteTaskButton.setVisible(true);
         editTaskButton.setVisible(true);
-        
-        String task_name = model.getValueAt(taskListTable.getSelectedRow(), 1).toString();
-        String description = model.getValueAt(taskListTable.getSelectedRow(), 2).toString();
-        Date started = java.sql.Date.valueOf(model.getValueAt(taskListTable.getSelectedRow(), 3).toString());
-        Date deadline = java.sql.Date.valueOf(model.getValueAt(taskListTable.getSelectedRow(), 4).toString());
-        String status = model.getValueAt(taskListTable.getSelectedRow(), 5).toString();
-        
-        inputTNameField2.setText(task_name);
-        inputStarted2.setDate(started);
-        inputDeadline2.setDate(deadline);
-        inputDescField2.setText(description);
-        inputStatus2.setSelectedItem(status); 
+
+        inputTNameField2.setText(task.getTask_name());
+        inputStarted2.setDate(task.getStarted());
+        inputDeadline2.setDate(task.getDeadline());
+        inputDescField2.setText(task.getDescription());
+        inputStatus2.setSelectedItem(task.getStatus()); 
     }//GEN-LAST:event_taskListTableMouseClicked
 
     private void deleteTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTaskButtonActionPerformed
-        DefaultTableModel model = (DefaultTableModel) taskListTable.getModel();
-        
-        int selectedRow = taskListTable.getSelectedRow();
+        // Mendapatkan ID tugas yang dipilih dari baris yang dipilih
+        int task_id = (int) model.getValueAt(taskListTable.getSelectedRow(), 0);
+
+        // Menampilkan konfirmasi penghapusan tugas
         int confirm = JOptionPane.showConfirmDialog(this, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION);
-        int task_id = (int) model.getValueAt(selectedRow, 0);
-        
+
+        // Memeriksa apakah pengguna mengonfirmasi penghapusan
         if (confirm == JOptionPane.YES_OPTION) {
-            
+            // Menghapus tugas menggunakan TaskController (tc)
             if (tc.deleteTask(task_id)) {
+                // Menampilkan pesan sukses jika penghapusan tugas berhasil
                 JOptionPane.showMessageDialog(this, "Task deleted successfully!");
+                // Menghapus semua baris dalam model tabel
                 int rowCount = model.getRowCount();
                 for (int i = rowCount - 1; i >= 0; i--) {
                     model.removeRow(i);
                 }
 
+                // Memperbarui daftar tugas dalam tabel
                 tc.taskList(model, user.getUser_id());
             }
         }

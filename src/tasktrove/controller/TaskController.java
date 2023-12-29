@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import tasktrove.dao.TaskDaoImpl;
 import tasktrove.model.Task;
+import tasktrove.model.User;
 
 /**
  * Kelas TaskController yang bertanggung jawab untuk mengelola operasi terkait tugas,
@@ -67,5 +68,15 @@ public class TaskController {
      */
     public boolean deleteTask(int task_id) {
         return td.delete(task_id); // Menghapus tugas dari database.
+    }
+    
+    /**
+     * Mendapatkan detail tugas berdasarkan task_id.
+     * 
+     * @param task_id ID tugas.
+     * @return Task Mengembalikan objek Tssk yang berisi detail tugas.
+     */
+    public Task getTaskDetails(int task_id) {
+        return td.get(task_id); // Mengembalikan detail tugas dari database.
     }
 }

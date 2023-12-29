@@ -23,27 +23,30 @@ import tasktrove.config.Database;
  */
 public class HomeView extends javax.swing.JPanel {
 
-    private HomeController hc;
+    private HomeController hc = new HomeController();
     
     String[] columnNames = {"Task Id","Task Name", "Description", "Started", "Deadline", "Status"};
-    DefaultTableModel model = new DefaultTableModel(columnNames, 0); // 0 untuk jumlah baris awal
+    DefaultTableModel model = new DefaultTableModel(columnNames, 0); 
 
     /**
      * Creates new form HomeView
      */
     public HomeView(User user) {
         initComponents();
-        
-        hc = new HomeController();
-        
+
+        // Menampilkan deadline hari ini pada tabel
+        hc.deadlineToday(model, user.getUser_id());
+
+        // Menetapkan jumlah tugas yang belum selesai ke jLabel6
+        jLabel6.setText(Integer.toString(hc.getUndoneTasks(user.getUser_id())));
+
+        // Menetapkan total jumlah tugas ke jLabel7
+        jLabel7.setText(Integer.toString(hc.getTotalTasks(user.getUser_id())));
+
+        // Mengatur warna latar belakang tabel, viewport, dan header tabel
         deadlineTodayTable.setBackground(new Color(242, 247, 255));
         jScrollPane1.getViewport().setBackground(new Color(242, 247, 255));
         deadlineTodayTable.getTableHeader().setBackground(new Color(242, 247, 255));
-
-        hc.deadlineToday(model, user.getUser_id());
-        
-        jLabel6.setText(Integer.toString(hc.getUndoneTasks(user.getUser_id())));
-        jLabel7.setText(Integer.toString(hc.getTotalTasks(user.getUser_id())));
     }
 
     /**

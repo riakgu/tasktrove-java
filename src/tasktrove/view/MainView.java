@@ -31,7 +31,6 @@ public class MainView extends javax.swing.JFrame {
         mainSectionPanel.add(new HomeView(user));
         mainSectionPanel.repaint();
         mainSectionPanel.revalidate();
- 
     }   
     
 

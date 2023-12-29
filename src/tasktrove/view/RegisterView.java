@@ -212,28 +212,30 @@ public class RegisterView extends javax.swing.JFrame {
     }//GEN-LAST:event_loginLabelMouseClicked
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+        // Mendapatkan nilai dari field nama, username, dan password
         String name = inputNameField.getText();
         String username = inputUsernameField.getText();
         String password = new String(inputPassField.getPassword());
 
-        // Validate form
+        // Memeriksa apakah ada field yang kosong
         if (name.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            // Menampilkan pesan kesalahan jika ada field yang kosong
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Check if user exists
+        // Memeriksa apakah username sudah ada
         if (ac.isUserExists(username)) {
+            // Menampilkan pesan kesalahan jika username sudah terdaftar
             JOptionPane.showMessageDialog(this, "Username already taken", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Save to database
+        // Mendaftarkan pengguna dengan menggunakan AuthController (ac)
         if (ac.register(name, username, password)) {
+            // Menampilkan pesan sukses jika pendaftaran berhasil
             JOptionPane.showMessageDialog(this, "User registered successfully!");
         }
-        
-
     }//GEN-LAST:event_registerButtonActionPerformed
 
     /**

@@ -221,16 +221,20 @@ public class SettingsView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitPassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitPassButtonActionPerformed
+        // Mendapatkan ID pengguna, password lama, dan password baru
         int user_id = user.getUser_id();
         String oldPassword = inputCurrentPassField.getText();
         String newPassword = inputNewPassField.getText();
-        
+
+        // Memeriksa apakah password lama sesuai dengan password pengguna
         if (oldPassword.equals(user.getPassword())) {
-            
+            // Mengubah password pengguna jika password lama sesuai
             if (sc.settingsPassword(user_id, newPassword)) {
+                // Menampilkan pesan sukses jika penggantian password berhasil
                 JOptionPane.showMessageDialog(this, "Password updated successfully!");
             }
         } else {
+            // Menampilkan pesan kesalahan jika password lama tidak sesuai
             JOptionPane.showMessageDialog(this, "The old password doesn't match!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_submitPassButtonActionPerformed
@@ -240,27 +244,35 @@ public class SettingsView extends javax.swing.JPanel {
     }//GEN-LAST:event_inputUsernameFieldActionPerformed
 
     private void submitProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitProfileButtonActionPerformed
+        // Mendapatkan ID pengguna, nama, dan username baru
         int user_id = user.getUser_id();
         String name = inputNameField.getText();
         String username = inputUsernameField.getText();
-        
-        // Validate form
+
+        // Memeriksa apakah field nama atau username kosong
         if (username.isEmpty() || name.isEmpty()) {
+            // Menampilkan pesan kesalahan jika field nama atau username kosong
             JOptionPane.showMessageDialog(this, "The name and username must not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        if (user.getUsername() != username) {
+
+        // Memeriksa apakah username baru sudah ada
+        if (!user.getUsername().equals(username)) {
+            // Memeriksa apakah username sudah terdaftar
             if (ac.isUserExists(username)) {
+                // Menampilkan pesan kesalahan jika username sudah terdaftar
                 JOptionPane.showMessageDialog(this, "Username already taken", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }
-        
+
+        // Mengubah profil pengguna dengan menggunakan SettingsController (sc)
         if (sc.settingsProfile(user_id, name, username)) {
+            // Menampilkan pesan sukses jika pengubahan profil berhasil
             JOptionPane.showMessageDialog(this, "Profile updated successfully!");
         }
-        
+
+        // Memperbarui objek pengguna dengan nama dan username baru
         user.setName(name);
         user.setUsername(username);
     }//GEN-LAST:event_submitProfileButtonActionPerformed
