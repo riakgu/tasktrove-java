@@ -61,6 +61,6 @@ public class AuthController {
     public boolean isUserExists(String username) {
         User user = ud.getByUsername(username);
         
-        return user != null;
+        return user.getUsername() != null;
     }
 }

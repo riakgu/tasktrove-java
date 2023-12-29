@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/controller/TaskController.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/controller/HomeController.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/dao/TaskDaoImpl.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/config/Api.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/dao/TaskDao.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/dao/UserDaoImpl.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/view/ChatbotView.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/controller/AuthController.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/controller/SettingsController.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/controller/ChatbotController.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/config/Database.java</file>
-            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/model/Task.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
