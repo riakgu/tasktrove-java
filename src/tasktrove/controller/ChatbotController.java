@@ -1,53 +1,46 @@
 package tasktrove.controller;
 
 import okhttp3.*;
-
 import org.json.JSONObject;
 import tasktrove.config.Api;
 
 /**
- * ChatbotController mengatur komunikasi dengan API chatbot.
- * Kelas ini menggunakan OkHttp untuk mengirim permintaan ke endpoint API
- * dan menerima respon berdasarkan pesan pengguna.
+ * Kelas ChatbotController untuk mengelola interaksi dengan chatbot.
  */
 public class ChatbotController {
-    private Api api = new Api();
-    
+    private Api api = new Api(); // Instansiasi konfigurasi API.
+
     /**
-     * Mengirim pesan pengguna ke API chatbot dan mendapatkan respon.
-     * Menggunakan model 'mistral-7b-instruct' untuk permintaan ini.
-     * 
+     * Mengirimkan pesan pengguna ke API chatbot dan mendapatkan respons.
+     *
      * @param userMessage Pesan yang dikirim oleh pengguna.
-     * @return Respon dari chatbot atau pesan error jika terjadi kegagalan.
+     * @return String Respons dari chatbot.
      */
     public String getPerplexityResponse(String userMessage) {
         try {
-            // Membuat client HTTP
-            OkHttpClient client = new OkHttpClient();
+            OkHttpClient client = new OkHttpClient(); // Membuat instance OkHttpClient.
 
-            // Menentukan tipe media untuk permintaan
-            MediaType mediaType = MediaType.parse("application/json");
-            
-            // Membuat isi permintaan dengan format JSON
+            MediaType mediaType = MediaType.parse("application/json"); // Menentukan media type untuk request body.
+
+            // Membuat request body dengan pesan pengguna.
             String requestBody = "{\"model\":\"mistral-7b-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"Be precise and concise.\"},{\"role\":\"user\",\"content\":\"" + userMessage + "\"}]}";
 
-            // Membangun permintaan HTTP
+            // Membangun request HTTP.
             Request request = new Request.Builder()
-                    .url(api.PERPLEXITY_ENDPOINT)
-                    .post(RequestBody.create(mediaType, requestBody))
-                    .addHeader("accept", "application/json")
-                    .addHeader("content-type", "application/json")
-                    .addHeader("Authorization", "Bearer " + api.PERPLEXITY_API_KEY)
+                    .url(api.PERPLEXITY_ENDPOINT) // Menentukan URL endpoint.
+                    .post(RequestBody.create(mediaType, requestBody)) // Menetapkan metode POST dengan body.
+                    .addHeader("accept", "application/json") // Menambahkan header accept.
+                    .addHeader("content-type", "application/json") // Menambahkan header content-type.
+                    .addHeader("Authorization", "Bearer " + api.PERPLEXITY_API_KEY) // Menambahkan header Authorization.
                     .build();
 
-            // Mengirim permintaan dan menerima respon
+            // Mengirimkan request dan menerima respons.
             Response response = client.newCall(request).execute();
             if (response.isSuccessful() && response.body() != null) {
-                // Menguraikan respon JSON
-                String jsonResponse = response.body().string();
-                JSONObject jsonObject = new JSONObject(jsonResponse);
+                String jsonResponse = response.body().string(); // Membaca response body sebagai string.
+                JSONObject jsonObject = new JSONObject(jsonResponse); // Mengonversi string ke JSONObject.
 
-                // Mengambil respon pesan
+                // Mengambil dan mengembalikan isi respons dari chatbot.
                 String assistantResponse = jsonObject.getJSONArray("choices")
                         .getJSONObject(0)
                         .getJSONObject("message")
@@ -56,11 +49,9 @@ public class ChatbotController {
                 return assistantResponse;
             }
         } catch (Exception e) {
-            // Menangani eksepsi
-            e.printStackTrace();
+            e.printStackTrace(); // Mencetak stack trace jika terjadi exception.
         }
 
-        // Mengembalikan pesan kesalahan jika terjadi kegagalan
-        return "Maaf, terjadi kesalahan.";
+        return "Maaf, terjadi kesalahan."; // Mengembalikan pesan error jika terjadi kegagalan.
     }
 }

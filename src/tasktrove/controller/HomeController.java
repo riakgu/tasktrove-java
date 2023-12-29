@@ -6,61 +6,60 @@ import javax.swing.table.DefaultTableModel;
 import tasktrove.dao.TaskDaoImpl;
 
 /**
- * HomeController mengelola tampilan dan pemrosesan data terkait tugas dalam aplikasi.
- * Kelas ini berinteraksi dengan TaskDaoImpl untuk mengakses dan memanipulasi data tugas.
+ * Kelas HomeController yang bertugas mengelola tampilan dan logika utama
+ * dari aplikasi terkait tugas dan deadline.
  */
 public class HomeController {
     
-    private TaskDaoImpl td = new TaskDaoImpl();
+    private TaskDaoImpl td = new TaskDaoImpl(); // Membuat instance TaskDaoImpl untuk interaksi database.
     
     /**
-     * Menampilkan tugas yang memiliki tenggat waktu hari ini dalam model tabel.
-     * 
-     * @param model Model tabel yang digunakan untuk menampilkan data.
-     * @param user_id ID pengguna untuk memfilter tugas yang relevan.
+     * Menampilkan tugas yang memiliki deadline hari ini dalam tabel.
+     *
+     * @param model Model tabel yang akan diisi dengan data tugas.
+     * @param user_id ID pengguna untuk memfilter tugas.
      */
     public void deadlineToday(DefaultTableModel model, int user_id) {
-        LocalDate today = LocalDate.now();
-        Date sqlToday = Date.valueOf(today);
+        LocalDate today = LocalDate.now(); // Mendapatkan tanggal hari ini.
+        Date sqlToday = Date.valueOf(today); // Mengonversi LocalDate ke java.sql.Date.
+        
         try {
-            ResultSet rs = td.getAll(user_id);
+            ResultSet rs = td.getAll(user_id); // Mendapatkan semua tugas dari basis data untuk pengguna tertentu.
             while (rs != null && rs.next()) {
-                // Memeriksa apakah tenggat tugas sama dengan hari ini
+                // Jika deadline tugas sama dengan hari ini, tambahkan ke model tabel.
                 if (rs.getDate("deadline").equals(sqlToday)) {
-                    // Menambahkan baris ke model tabel dengan data tugas
                     model.addRow(new Object[]{
-                        rs.getInt("task_id"),
-                        rs.getString("task_name"),
-                        rs.getString("description"),
-                        rs.getDate("started"),
-                        rs.getDate("deadline"),
-                        rs.getString("status")
+                        rs.getInt("task_id"),       // ID Tugas
+                        rs.getString("task_name"),  // Nama Tugas
+                        rs.getString("description"),// Deskripsi Tugas
+                        rs.getDate("started"),      // Tanggal Mulai
+                        rs.getDate("deadline"),     // Tanggal Deadline
+                        rs.getString("status")      // Status Tugas
                     });
                 }
             }
         } catch (SQLException e) {
-            // Menangani eksepsi SQL
-            e.printStackTrace();
+            e.printStackTrace(); // Mencetak error jika terjadi SQLException.
         }
     }
-    
+
     /**
-     * Mendapatkan jumlah tugas yang belum selesai oleh pengguna.
-     * 
+     * Menghitung jumlah tugas yang belum selesai untuk pengguna tertentu.
+     *
      * @param user_id ID pengguna.
-     * @return Jumlah tugas yang belum selesai.
+     * @return int Jumlah tugas yang belum selesai.
      */
     public int getUndoneTasks(int user_id) {
-        return td.getUndone(user_id);
+        return td.getUndone(user_id); // Memanggil metode getUndone dari TaskDaoImpl.
     }
     
     /**
-     * Mendapatkan total jumlah tugas yang dimiliki oleh pengguna.
-     * 
+     * Menghitung jumlah total tugas untuk pengguna tertentu.
+     *
      * @param user_id ID pengguna.
-     * @return Total jumlah tugas.
+     * @return int Jumlah total tugas.
      */
     public int getTotalTasks(int user_id) {
-        return td.getTotal(user_id);
+        return td.getTotal(user_id); // Memanggil metode getTotal dari TaskDaoImpl.
     }
 }

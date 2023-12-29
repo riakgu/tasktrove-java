@@ -4,63 +4,61 @@ import tasktrove.model.User;
 import tasktrove.dao.UserDaoImpl;
 
 /**
- * AuthController mengelola proses autentikasi seperti login, pendaftaran,
- * dan pengecekan keberadaan pengguna dalam aplikasi.
- * Kelas ini berinteraksi dengan UserDaoImpl untuk melakukan operasinya.
+ * Kelas AuthController bertanggung jawab untuk mengelola otentikasi pengguna.
+ * Kelas ini menyediakan fungsi untuk login, registrasi, mendapatkan detail pengguna,
+ * dan mengecek keberadaan pengguna.
  */
 public class AuthController {
     
     private UserDaoImpl ud = new UserDaoImpl();
     
     /**
-     * Melakukan upaya login menggunakan nama pengguna dan kata sandi.
+     * Melakukan proses login dengan memverifikasi username dan password.
      * 
-     * @param username Username yang mencoba masuk.
-     * @param password Kata sandi pengguna.
-     * @return true jika login berhasil, false jika tidak.
+     * @param username Username pengguna.
+     * @param password Password pengguna.
+     * @return boolean Mengembalikan true jika login berhasil, false jika gagal.
      */
     public boolean login(String username, String password) {
-        User user = ud.getByUsername(username);
-        
-        return user.getPassword().equals(password);
+        User user = ud.getByUsername(username); // Mendapatkan data pengguna berdasarkan username.
+        return user.getPassword().equals(password); // Membandingkan password yang dimasukkan dengan yang ada di database.
     }
     
     /**
-     * Mendaftarkan pengguna baru dengan detail yang diberikan.
+     * Mendaftarkan pengguna baru ke dalam sistem.
      * 
-     * @param name Nama pengguna baru.
-     * @param username Nama pengguna untuk pengguna baru.
-     * @param password Kata sandi untuk pengguna baru.
-     * @return true jika registrasi berhasil, false jika tidak.
+     * @param name Nama pengguna.
+     * @param username Username yang akan digunakan pengguna.
+     * @param password Password pengguna.
+     * @return boolean Mengembalikan true jika registrasi berhasil, false jika gagal.
      */
     public boolean register(String name, String username, String password) {
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
-        user.setUsername(username);
+        User user = new User(); // Membuat objek User baru.
+        user.setName(name); // Menetapkan nama untuk objek User.
+        user.setPassword(password); // Menetapkan password untuk objek User.
+        user.setUsername(username); // Menetapkan username untuk objek User.
         
-        return ud.save(user);
+        return ud.save(user); // Menyimpan objek User ke dalam database.
     }
 
     /**
-     * Mendapatkan detail pengguna berdasarkan nama pengguna.
+     * Mendapatkan detail pengguna berdasarkan username.
      * 
-     * @param nama pengguna Nama pengguna.
-     * @return Objek pengguna yang berisi detail pengguna.
+     * @param username Username pengguna.
+     * @return User Mengembalikan objek User yang berisi detail pengguna.
      */
     public User getUserDetails(String username) {
-        return ud.getByUsername(username);
+        return ud.getByUsername(username); // Mengembalikan detail pengguna dari database.
     }
     
     /**
-     * Memeriksa apakah pengguna dengan nama tertentu sudah ada dalam sistem.
+     * Menentukan apakah pengguna dengan username tertentu sudah ada di sistem.
      * 
-     * @param username Nama pengguna yang akan diperiksa.
-     * @return true jika pengguna ada, false jika tidak.
+     * @param username Username yang akan dicek.
+     * @return boolean Mengembalikan true jika pengguna sudah ada, false jika belum.
      */
     public boolean isUserExists(String username) {
-        User user = ud.getByUsername(username);
-        
-        return user.getUsername() != null;
+        User user = ud.getByUsername(username); // Mendapatkan data pengguna berdasarkan username.
+        return user.getUsername() != null; // Memeriksa apakah username tersebut sudah terdaftar di database.
     }
 }
