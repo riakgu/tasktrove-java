@@ -2,13 +2,13 @@ package tasktrove.controller;
 
 import okhttp3.*;
 import org.json.JSONObject;
-import tasktrove.config.Api;
 
 /**
  * Kelas ChatbotController untuk mengelola interaksi dengan chatbot.
  */
 public class ChatbotController {
-    private Api api = new Api(); // Instansiasi konfigurasi API.
+     public static final String PERPLEXITY_API_KEY = "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";
+     public static final String PERPLEXITY_ENDPOINT = "https://api.perplexity.ai/chat/completions";
 
     /**
      * Mengirimkan pesan pengguna ke API chatbot dan mendapatkan respons.
@@ -23,15 +23,15 @@ public class ChatbotController {
             MediaType mediaType = MediaType.parse("application/json"); // Menentukan media type untuk request body.
 
             // Membuat request body dengan pesan pengguna.
-            String requestBody = "{\"model\":\"mistral-7b-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"Be precise and concise.\"},{\"role\":\"user\",\"content\":\"" + userMessage + "\"}]}";
+            String requestBody = "{\"model\":\"codellama-34b-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"Be precise and concise.\"},{\"role\":\"user\",\"content\":\"" + userMessage + "\"}]}";
 
             // Membangun request HTTP.
             Request request = new Request.Builder()
-                    .url(api.PERPLEXITY_ENDPOINT) // Menentukan URL endpoint.
+                    .url(PERPLEXITY_ENDPOINT) // Menentukan URL endpoint.
                     .post(RequestBody.create(mediaType, requestBody)) // Menetapkan metode POST dengan body.
                     .addHeader("accept", "application/json") // Menambahkan header accept.
                     .addHeader("content-type", "application/json") // Menambahkan header content-type.
-                    .addHeader("Authorization", "Bearer " + api.PERPLEXITY_API_KEY) // Menambahkan header Authorization.
+                    .addHeader("Authorization", "Bearer " + PERPLEXITY_API_KEY) // Menambahkan header Authorization.
                     .build();
 
             // Mengirimkan request dan menerima respons.

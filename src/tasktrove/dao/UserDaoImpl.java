@@ -6,15 +6,15 @@ import tasktrove.model.User;
 
 /**
  * Implementasi dari interface UserDao yang menyediakan metode untuk operasi database
- * pada tabel pengguna.
+ * pada tabel user.
  */
 public class UserDaoImpl implements UserDao {
 
     /**
-     * Mendapatkan pengguna berdasarkan username.
+     * Mendapatkan data user berdasarkan username.
      *
      * @param username Username pengguna yang akan dicari.
-     * @return User Objek User yang diambil dari database, atau null jika tidak ditemukan.
+     * @return Objek User yang diambil dari database, atau null jika tidak ditemukan.
      */
     @Override
     public User getByUsername(String username) {
@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     /**
-     * Mendapatkan pengguna berdasarkan ID.
+     * Mendapatkan data user berdasarkan ID.
      *
      * @param user_id ID pengguna yang akan dicari.
      * @return User Objek User yang diambil dari database, atau null jika tidak ditemukan.
@@ -118,7 +118,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void delete(int user_id) {
-        // Metode ini tidak diimplementasikan dalam contoh ini.
+        // Tidak ada fitur delete user
     }
 
 }

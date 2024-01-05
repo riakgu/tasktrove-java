@@ -1,19 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tasktrove.model;
 
 import java.sql.Date;
 import java.util.logging.Logger;
 
-/**
- *
- * @author riakgu
- */
 public class Task {
-    private User user;
     private int task_id;
     private int user_id;
     private String task_name;
@@ -54,8 +44,8 @@ public class Task {
         this.task_id = task_id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUser_id(User user) {
+        this.user_id = user.getUser_id();
     }
 
     public void setTask_name(String task_name) {

@@ -225,6 +225,13 @@ public class SettingsView extends javax.swing.JPanel {
         int user_id = user.getUser_id();
         String oldPassword = inputCurrentPassField.getText();
         String newPassword = inputNewPassField.getText();
+        
+        // Memeriksa panjang password (minimal 8 karakter)
+        if (newPassword.length() < 8) {
+            // Menampilkan pesan kesalahan jika password terlalu pendek
+            JOptionPane.showMessageDialog(this, "Password must be at least 8 characters", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         // Memeriksa apakah password lama sesuai dengan password pengguna
         if (oldPassword.equals(user.getPassword())) {
@@ -255,6 +262,14 @@ public class SettingsView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "The name and username must not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        // Memeriksa panjang username (minimal 5 karakter)
+        if (username.length() < 5) {
+            // Menampilkan pesan kesalahan jika username terlalu pendek
+            JOptionPane.showMessageDialog(this, "Username must be at least 5 characters", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
 
         // Memeriksa apakah username baru sudah ada
         if (!user.getUsername().equals(username)) {

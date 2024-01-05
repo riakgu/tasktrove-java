@@ -2,6 +2,21 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/view/HomeView.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/config/Api.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/view/LoginView.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/view/ChatbotView.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/view/MainView.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/model/User.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/controller/TaskController.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/view/RegisterView.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/view/SettingsView.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/controller/Test.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/controller/SettingsController.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/controller/ChatbotController.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/model/Task.java</file>
+            <file>file:/D:/College/Semester%205/PEMROGRAMAN%20BERORIENTASI%20OBJEK/Tubes/TaskTrove/src/tasktrove/dao/UserDao.java</file>
+        </group>
     </open-files>
 </project-private>

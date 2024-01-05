@@ -3,3 +3,4 @@ build/
 
 # Ignore Api.java in src/tasktrove/config/
 src/tasktrove/config/Api.java
+/dist/

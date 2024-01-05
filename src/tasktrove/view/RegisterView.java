@@ -149,7 +149,7 @@ public class RegisterView extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginLabel)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         rigthPanel.setBackground(new java.awt.Color(0, 196, 238));
@@ -221,6 +221,20 @@ public class RegisterView extends javax.swing.JFrame {
         if (name.isEmpty() || username.isEmpty() || password.isEmpty()) {
             // Menampilkan pesan kesalahan jika ada field yang kosong
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Memeriksa panjang username (minimal 5 karakter)
+        if (username.length() < 5) {
+            // Menampilkan pesan kesalahan jika username terlalu pendek
+            JOptionPane.showMessageDialog(this, "Username must be at least 5 characters", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Memeriksa panjang password (minimal 8 karakter)
+        if (password.length() < 8) {
+            // Menampilkan pesan kesalahan jika password terlalu pendek
+            JOptionPane.showMessageDialog(this, "Password must be at least 8 characters", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

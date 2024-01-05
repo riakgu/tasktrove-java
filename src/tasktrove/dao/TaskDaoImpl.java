@@ -3,6 +3,7 @@ package tasktrove.dao;
 import java.sql.*;
 import tasktrove.config.Database;
 import tasktrove.model.Task;
+import tasktrove.model.User;
 
 /**
  * Implementasi dari interface TaskDao yang menyediakan metode untuk melakukan operasi database
@@ -39,6 +40,7 @@ public class TaskDaoImpl implements TaskDao {
     public Task get(int task_id) {
         try {
             Task task = new Task();
+            User user = new User();
             Connection connection = Database.getConnection();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM tasks WHERE task_id = ?");
             ps.setInt(1, task_id);
@@ -46,7 +48,8 @@ public class TaskDaoImpl implements TaskDao {
             if (rs != null && rs.next()) {
                 // Mengisi objek Task dengan data dari ResultSet.
                 task.setTask_id(rs.getInt("task_id"));
-                task.setUser_id(rs.getInt("user_id"));
+                user.setUser_id(rs.getInt("user_id"));
+                task.setUser_id(user);
                 task.setTask_name(rs.getString("task_name"));
                 task.setDescription(rs.getString("description"));
                 task.setStarted(rs.getDate("started"));

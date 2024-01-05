@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tasktrove.config;
 
 import java.sql.Connection;
@@ -12,14 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author riakgu
- */
 public class Database {
-    static final String DB_URL = "jdbc:mysql://localhost:3307/tasktrove_java";
-    static final String DB_USER = "root";
-    static final String DB_PASS = "root";
+    static final String DB_URL = "jdbc:mysql://103.59.160.21:3306/tasktrov_java";
+    static final String DB_USER = "tasktrov_java";
+    static final String DB_PASS = "tasktrov_java";
     static Connection connection;
     static Statement statement;
     static ResultSet resultSet;

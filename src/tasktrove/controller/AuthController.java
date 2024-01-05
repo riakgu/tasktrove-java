@@ -21,8 +21,17 @@ public class AuthController {
      */
     public boolean login(String username, String password) {
         User user = ud.getByUsername(username); // Mendapatkan data pengguna berdasarkan username.
-        return user.getPassword().equals(password); // Membandingkan password yang dimasukkan dengan yang ada di database.
+
+        // Cek apakah username tersedia atau tidak
+        if (user.getUsername() != null) {
+            // Membandingkan password yang dimasukkan dengan yang ada di database.
+            return user.getPassword().equals(password);
+        } else {
+            // Jika username tidak tersedia, return false
+            return false;
+        }
     }
+
     
     /**
      * Mendaftarkan pengguna baru ke dalam sistem.

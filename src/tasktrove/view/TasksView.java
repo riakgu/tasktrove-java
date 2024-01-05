@@ -416,7 +416,7 @@ public class TasksView extends javax.swing.JPanel {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         // Mengatur nilai properti pada objek Task
-        task.setUser_id(user.getUser_id());
+        task.setUser_id(user);
         task.setTask_name(inputTNameField.getText());
         task.setDescription(inputDescField.getText());
         task.setStatus((String) inputStatus.getSelectedItem());
@@ -476,7 +476,7 @@ public class TasksView extends javax.swing.JPanel {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         // Mengatur nilai properti pada objek Task
-        task.setUser_id(user.getUser_id());
+        task.setUser_id(user);
         task.setTask_id((int) model.getValueAt(taskListTable.getSelectedRow(), 0));
         task.setTask_name(inputTNameField2.getText());
         task.setDescription(inputDescField2.getText());
